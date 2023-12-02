@@ -199,7 +199,8 @@ GET /act_document/_search
           },
           {
             "match_phrase": {
-              "methodId": "01"
+              "
+              ": "01"
             }
           },
           {
@@ -509,7 +510,7 @@ GET /act_document/_search
       "must": [
         {
           "match": {
-            "isCorruptPredictionPositive": "overProfit"
+            "isCorruptPredictionPositive": "normal"
           }
         }
       ]
@@ -541,7 +542,92 @@ GET /act_document/_search
       "must": [
         {
           "match": {
-            "isCorruptPredictionPositive": "failCorruption"
+            "isCorruptPredictionPositive": "MultiContracts"
+          }
+        },
+        
+        {
+          "match": {
+            "method.raw": "สอบราคา"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match_phrase": {
+            "projectMoney": {
+              "query": 0
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+    "size": 100,
+  "query": {
+    "bool": {
+      "must_not": [
+       {
+          "exists": {
+            "field": "documents"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "exists": {
+            "field": "winnerName"
+          }
+        },
+        {
+          "exists": {
+            "field": "winnerPrice"
+          }
+        }
+      ], 
+      "must_not": [
+        {
+          "match_phrase": {
+            "projectMoney": {
+              "query": 0
+            }
+          }
+        },
+         {
+          "match": {
+            "isCorruptPredictionPositive": "MultiContracts"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must": [
+       
+      
+         {
+          "match": {
+            "isCorruptPredictionPositive": "MultiContracts"
           }
         }
       ]
@@ -1379,7 +1465,7 @@ GET /act_document/_search
       "must": [
         {
           "wildcard": {
-            "projectName.raw": ""
+            "departmentName.raw": "*ดอนพ*"
           }
         },
         {
@@ -1390,7 +1476,7 @@ GET /act_document/_search
                   "path": "fullInfo.auction",
                   "query": {
                     "match_phrase": {
-                      "fullInfo.auction.companyInfo.name": "วีรวุฒิ คอนกรีต"
+                      "fullInfo.auction.companyInfo.name": "ป.พัฒนารุ่งโรจน์ก่อสร้าง"
                     }
                   }
                 }
@@ -1400,7 +1486,7 @@ GET /act_document/_search
                   "path": "fullInfo.winner",
                   "query": {
                     "match_phrase": {
-                      "fullInfo.winner.companyInfo.name": "วีรวุฒิ คอนกรีต"
+                      "fullInfo.winner.companyInfo.name": "ป.พัฒนารุ่งโรจน์ก่อสร้าง"
                     }
                   }
                 }
@@ -1530,6 +1616,47 @@ GET /act_document/_search
            "isCorruptPredictionPositive": "RiskBidRigging"
           }
         }
+        ]
+    }
+  }
+}
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [
+         {
+          "match": {
+            "processed": 9
+          }
+        },
+        {
+          "match": {
+           "isCorruptPredictionPositive": "MultiContractsNormal"
+          }
+        },
+        {
+            "match": {
+              "methodId": "16"
+            }
+          }
+        
+        ],
+        "must_not": [
+          {
+            "match": {
+              "methodId": "19"
+            }
+          },
+          {
+            "match": {
+              "method.raw": "เฉพาะเจาะจง"
+            }
+          }
         ]
     }
   }
@@ -1690,6 +1817,30 @@ GET /act_document/_search
 GET /act_document/_search
 {
   "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+       
+ 
+        {
+          "range": {
+            "pullDate": {
+              "gte": "2023-10-01T00:00:00.000Z",
+              "lte": "2023-10-30T00:00:00.000Z"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
   "query": {
     "bool": {
       "must": [
@@ -1780,9 +1931,9 @@ POST /act_document/_update/66017074473
 
 
 
-DELETE /act_company/_doc/013408013223234827210449
+DELETE /act_company/_doc/0107574800471
 
-DELETE /act_document/_doc/61027348775
+DELETE /act_document/_doc/66079299433
 
 DELETE /act_company/_doc/303130353532343031333131
 
@@ -1902,6 +2053,8 @@ POST /act_document/_update/65117395889
 
 
 
+
+
 POST /act_document/_update/65117395889
 {
   "script": {
@@ -1930,12 +2083,10 @@ POST /act_document/_update/63057011269
 POST /act_document/_update/63037295715
 {
   "script": {
-    "source": "ctx._source.sumPriceAgree = 93947434",
+    "source": "ctx._source.sumPriceAgree = 93447433.5",
     "lang": "painless"
   }
 }
-
-
 
 POST /act_temp_company/_update/04312525312200833013114
 {
@@ -1944,4 +2095,1026 @@ POST /act_temp_company/_update/04312525312200833013114
     "lang": "painless"
   }
 }
+
+
+
+POST /act_document/_update/66079299433
+{
+  "script": {
+    "source": "ctx._source.winnerName = 'ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนล'",
+    "lang": "painless"
+  }
+}
+
+POST /act_document/_update/66079299433
+{
+  "script": {
+    "source": "ctx._source.winnerPrice = 13359000",
+    "lang": "painless"
+  }
+}
+
+
+POST /act_document/_update/66079299433
+{
+  "script": {
+    "source": "ctx._source.fullInfo.winner[0].add(params.newData)",
+    "lang": "painless",
+    "params": {
+      "newData": {
+        "date": "13/07/2566",
+        "price": 13359000,
+        "name": "ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนลิจชัยทวี",
+        "company": "ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนลิจชัยทวี",
+        "tempComp": "-",
+        "type": "ข้อมูลสาระสำคัญในสัญญา"
+      }
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        
+        {
+          "nested": {
+            "path": "fullInfo.winner",
+            "query": {
+              "match": {
+                "tempComp": 2.735233003122234e+23
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+POST /act_document/_delete_by_query
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name": "ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนลิจชัยทวี"
+          }
+        },
+        {
+          "match": {
+            "tempComp": 2.735233003122234e+23
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+POST /act_document/_update/66079299433
+{
+  "script": {
+    "source": "if (ctx._source.fullInfo.winner == null) { ctx._source.fullInfo.winner = []; } ctx._source.fullInfo.winner.add(params.newData)",
+    "lang": "painless",
+    "params": {
+      "newData": {
+        "date": "13/07/2566",
+        "price": 13359000,
+        "name": "ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนลิจชัยทวี",
+        "company": "ห้างหุ้นส่วนจำกัด วีระชัยอินเตอร์เนชั่นแนลิจชัยทวี",
+        "tempComp": "273523300312223419401522",
+        "type": "ข้อมูลสาระสำคัญในสัญญา"
+      }
+    }
+  }
+}
+
+
+
+
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 1000000,
+  "query": {
+    "bool": {
+      "must": [
+       
+        {
+          "wildcard": {
+            "projectId": "*660*"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 1000000,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "wildcard": {
+            "projectId.keyword": "64*"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "script": {
+            "script": {
+              "source": "doc['id.keyword'].length() == params.length",
+              "params": {
+                "length": 13
+              }
+            }
+          }
+        },
+        {
+          "exists": {
+            "field": "typeOfEntity"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "id.keyword": "3209900325608"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "pullDate": {
+              "gte": "2023-10-26T07:00:00.000Z",
+              "lte": "2023-10-26T08:00:00.000Z",
+              "format": "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "tax"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "exists": {
+            "field": "tax"
+          }
+        }
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 34,
+  "query": {
+    "bool": {
+  
+      "must": [
+        {
+          "match": {
+            "tax": 1
+          }
+        }
+        
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 14,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "terms": {
+            "tax": [
+              "8",
+              "1"
+            ]
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "processTax": 1
+          }
+        }
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 14,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "terms": {
+            "tax": [
+              "8",
+              "1"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 14,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "id": "0343556000986"
+          }
+        }
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 14,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "name.keyword": "หจ. สวนคูณ พร็อพเพอร์ตี้"
+          }
+        }
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 20,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "tax": 0
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "exists": {
+            "field": "tempComp"
+          }
+        },
+        {
+          "exists": {
+            "field": "typeOfEntity"
+          }
+        },
+        {
+          "exists": {
+            "field": "commitee"
+          }
+        }
+        ,
+        {
+          "exists": {
+            "field": "registerCapitalTHB"
+          }
+        },
+        {
+          "exists": {
+            "field": "rid"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 5,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "exists": {
+            "field": "typeOfEntity"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "tax": 0
+          }
+        }
+      ]
+    }
+  }
+}
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 20,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "match": {
+            "tax": 0
+          }
+        },
+        {
+          "exists": {
+            "field": "tempComp"
+          }
+        },
+        {
+          "exists": {
+            "field": "typeOfEntity"
+          }
+        },
+        {
+          "exists": {
+            "field": "commitee"
+          }
+        }
+        ,
+        {
+          "exists": {
+            "field": "registerCapitalTHB"
+          }
+        },
+        {
+          "exists": {
+            "field": "rid"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+
+
+
+
+GET /act_company/_search
+{
+  "track_total_hits": true,
+  "size": 5,
+  "query": {
+    "bool": {
+      "must": [
+      
+        {
+          "exists": {
+            "field": "taxType"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [ 
+        {
+                    "wildcard": {
+                      "projectName.raw": "ดอน"
+                    }
+                    
+        }         
+      ]
+    }
+  }
+}
+
+
+POST /act_document/_update/59095144001
+{
+  "script": {
+    "source": "ctx._source.fullInfo.winner[0]['name'] =  'หจ. เกียรติเจริญชัยการโยธา'",
+    "lang": "painless"
+  }
+}
+
+
+
+POST /act_document/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.fullInfo.auction.removeIf(item -> item.tempComp == '422101340820042192152331')"
+  },
+  "query": {
+    "match": {
+      "_id" : "65037330632"
+    }
+  }
+}
+
+POST /act_document/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.fullInfo.auction.removeIf(item -> item.tempComp == '200427200132230483207202')"
+  },
+  "query": {
+    "match": {
+      "_id" : "64117384992"
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+POST /act_document/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.fullInfo.auction.removeIf(item -> item.tempComp == '400135222315344008233400')"
+  },
+  "query": {
+    "match": {
+      "_id" : "61107325066"
+    }
+  }
+}
+
+
+POST /act_document/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.fullInfo.auction.removeIf(item -> item.tempComp == '402222322342035204024719083440193522233448072001233841')"
+  },
+  "query": {
+    "match": {
+      "_id" : "64027039394"
+    }
+  }
+}
+
+
+POST /act_document/_update/64027039394
+{
+  "script": {
+    "source": "ctx._source.sumWinnerPrice = 544960",
+    "lang": "painless"
+  }
+}
+
+
+POST /act_document/_update/64027039394
+{
+  "script": {
+    "source": "ctx._source.fullInfo.auction[0]['ราคาที่เสนอ'] = 454743",
+    "lang": "painless"
+  }
+}
+
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "methodId": "12"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "methodId": "04"
+          }
+        },
+        {
+          "terms": {
+            "budgetYear": ["2021", "2022", "2023","2020"]
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "from": 10000, 
+  "size": 10000,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "methodId": "16"
+          }
+        },
+        {
+          "match": {
+            "typeId": "01"
+          }
+        },
+        {
+          "terms": {
+            "budgetYear": ["2021"]
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "methodId": "16"
+          }
+        },
+        {
+          "match": {
+            "typeId": "01"
+          }
+        },
+        {
+          "match": {
+            "budgetYear": "2021"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+POST /act_document/_update/64087400163
+{
+  "script": {
+    "source": "ctx._source.documents[8].information.auctionData[0].รายชื่อผู้เสนอราคา = ['บริษัท ธรรมศักดิ์ จำกัด','บริษัท เหล็กตรัง จำกัด','กิจการร่วมค้า มหาทรัพย์ 99','บริษัท ชุมราษฎร์ วิศวกร จำกัด']",
+    "lang": "painless"
+  }
+}
+
+
+POST /act_document/_update/64087400163
+{
+  "script": {
+    "source": "ctx._source.documents[8].information.auctionData[0]['รายชื่อผู้เสนอราคา'] = ['บริษัท ธรรมศักดิ์ จำกัด','บริษัท เหล็กตรัง จำกัด','กิจการร่วมค้า มหาทรัพย์ 99','บริษัท ชุมราษฎร์ วิศวกร จำกัด']",
+    "lang": "painless"
+  }
+}
+
+
+POST /act_document/_update/61027348775
+{
+  "script": {
+    "source": "if (ctx._source.documents[7].information.data.empty) { ctx._source.documents[7].information.data = params.data } else { ctx._source.documents[7].information.data[0] = params.data }",
+    "lang": "painless",
+    "params": {
+      "data": [
+        {
+          "price": "145,398,448",
+          "company": "บริษัท ตรีเพชรอีซูซุเซลส์ จำกัด",
+          "order": "รถบรรทุก 3 ตัน 6 ล้อ"
+        },
+        {
+          "price": "71,323,632",
+          "company": "บริษัท ตรีเพชรอีซูซุเซลส์ จำกัด",
+          "order": "รถบรรทุก 4 ตัน 4 ประตู แบบมีกระบะท้าย"
+        },
+        {
+          "price": "12,792,000",
+          "company": "บริษัท ท็อปเบสท์ มอเตอร์ เซลส์ จำกัด",
+          "order": "รถบรรทุก 6 ตัน และ 6 ตันบริการ"
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "_id": "64027301954" 
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        
+          {
+          "exists": {
+            "field": "method"
+          }
+        }
+        
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must_not": [
+       {
+          "exists": {
+            "field": "documents"
+          }
+        }
+        
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must_not": [
+       
+       {
+          "exists": {
+            "field": "documents"
+          }
+        }
+        
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 100,
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "exists": {
+            "field": "documents"
+          }
+        },
+         {
+          "script": {
+            "script": {
+              "source": "if (doc.containsKey('documents') && doc['documents'].empty) { return false; } else { return true; }",
+              "lang": "painless"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "wildcard": {
+            "projectId": "*"
+          }
+        },
+        {
+          "match": {
+            "isCorruptPredictionPositive": "MultiContracts"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "exists": {
+            "field": "priceBuild"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+
+GET /act_document/_search
+{
+  "track_total_hits": true,
+  "size": 10,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "wildcard": {
+            "projectId": "*0383561000107"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "terms": {
+            "documents.filename": []
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /act_document/_search
+{
+   "size": 10,
+     "query": {
+      "bool": {
+         "must_not": [
+            {
+               "exists": {
+                 "field": "isCorruptPredictionPositive"
+               }
+            }
+         ]
+      }
+   }
+}
+
+
+
+
+GET /act_document/_search
+{
+  "size": 0,
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        }
+      ]
+    }
+  },
+  "aggs": {
+    "exists": {
+      "filters": {
+        "filters": {
+          "nofile": {
+            "bool": {
+              "must_not": [
+                {
+                  "exists": {
+                    "field": "isCorruptPredictionPositive"
+                  }
+                }
+              ]
+            }
+          },
+          "PriceAsGroup": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "PriceAsGroup"
+            }
+          },
+          "BidderIsSmall": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "BidderIsSmall"
+            }
+          },
+          "normal": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "normal"
+            }
+          },
+          "Normal": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "Normal"
+            }
+          },
+          "Comparative": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "Comparative"
+            }
+          },
+          "MidRange": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "MidRange"
+            }
+          },
+          "DeliberateHigh": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "DeliberateHigh"
+            }
+          },
+          "BothSamePrice": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "BothSamePrice"
+            }
+          },
+          "Undercutting": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "Undercutting"
+            }
+          },
+          "BelowPriceBuild": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "BelowPriceBuild"
+            }
+          },
+          "HigherThanPriceBuild": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "HigherThanPriceBuild"
+            }
+          },
+          "EndBudgetYear": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "EndBudgetYear"
+            }
+          },
+          "RiskBidRigging": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "RiskBidRigging"
+            }
+          },
+          "IssuePricing": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "IssuePricing"
+            }
+          },
+          "MultiContracts": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "MultiContracts"
+            }
+          },
+          "MultiContractsPositive": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "MultiContractsPositive"
+            }
+          },
+          "MultiContractsNormal": {
+            "term": {
+              "isCorruptPredictionPositive.keyword": "MultiContractsNormal"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
 
