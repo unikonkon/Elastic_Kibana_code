@@ -2,6 +2,7 @@
 
 GET / act_document / _search
 {
+    "from": 10, // from กำหนดจำนวนข้อมูลตำแหน่ง ที่ 10 ขึ้นไป
     "size": 1000,
         "query": {
         "bool": {
@@ -217,4 +218,26 @@ GET /act_document/_search  // เขียน ค้นหาข้อมูล 
       ]
     }
   }
+}
+
+
+DELETE /act_company/_doc/013408013223234827210449322025492013223223493207   // ลบข้อมูล ตาม id ที่กำหนดได้
+
+
+POST /act_company/_bulk  // การเพิ่มข้อมูล กำหนด id ได้
+{
+  "index": {
+    "_id": "0993000446984"
+  }
+}
+{
+  "_index": "act_company",
+  "_score": "-",
+  "_type": "_doc",
+  "name": "กิจการร่วมค้า ล้อการสร้าง",
+  "processTax": 1,
+  "tax": 0,
+  "taxType": "ระบุไม่ได้",
+  "winner.count": 13,
+  "winner.price": 85671000
 }
